@@ -1,0 +1,27 @@
+{
+  "name": "f.js",
+  "version": "0.0.1",
+  "description": "functions to make your code more readable by removing need for curly braces",
+  "main": "src/f.js",
+  "scripts": {
+    "test": "gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/endeepak/f.js.git"
+  },
+  "keywords": [
+    "lambda",
+    "functions",
+    "readable"
+  ],
+  "author": "endeepak",
+  "license": "MIT",
+  "devDependencies": {
+    "gulp": "^3.6.1",
+    "gulp-karma": "0.0.4",
+    "karma": "^0.12.9",
+    "karma-jasmine": "^0.1.5",
+    "karma-phantomjs-launcher": "^0.1.4"
+  }
+}
