@@ -14,16 +14,16 @@ Write less code for functions returning single line expression
 ### Properties
 
 			//books.map(function(book) { return book.title; })
-			books.map(f.property('title'))
+			books.map(f.x('title'))
 			//movies.filter(function(movie) { return !movie.watched; })
-			movies.filter(f.property('!watched'))
+			movies.filter(f.x('!watched'))
 
 ### Methods
 
 			//people.map(function(person) { return person.fullName(); })
-			people.map(f.method('fullName'))
+			people.map(f.x('fullName'))
 			//movies.filter(function(movie) { return !movie.isGood(); })
-			movies.filter(f.method('!isGood'))
+			movies.filter(f.x('!isGood'))
 
 ### Identity and noop
 

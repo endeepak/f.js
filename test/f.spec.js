@@ -43,25 +43,23 @@ describe("f", function() {
 		});
 	});
 
-	describe("property", function() {
+	describe("x", function() {
 		it("should return property function", function() {
-			expect(books.map(f.property('title'))).toEqual(bookTitles);
-			expect(shows.filter(f.property('watched'))).toEqual(watchedShows);
+			expect(books.map(f.x('title'))).toEqual(bookTitles);
+			expect(shows.filter(f.x('watched'))).toEqual(watchedShows);
 		});
 
 		it("should return negated property function when ! is present at begining", function() {
-			expect(shows.filter(f.property('!watched'))).toEqual(unWatchedShows);
+			expect(shows.filter(f.x('!watched'))).toEqual(unWatchedShows);
 		});
-	});
 
-	describe("method", function() {
 		it("should return method function", function() {
-			expect(people.map(f.method('fullName'))).toEqual(fullNames);
-			expect(movies.filter(f.method('isGood'))).toEqual(goodMovies);
+			expect(people.map(f.x('fullName()'))).toEqual(fullNames);
+			expect(movies.filter(f.x('isGood()'))).toEqual(goodMovies);
 		});
 
 		it("should return negated method function when ! is present at begining", function() {
-			expect(movies.filter(f.method('!isGood'))).toEqual(badMovies);
+			expect(movies.filter(f.x('!isGood()'))).toEqual(badMovies);
 		});
 	});
 
@@ -79,13 +77,22 @@ describe("f", function() {
 
 	describe("y", function() {
 		it("should create new function parsing lambda syntax", function() {
-			expect(books.map(f.y('(book) => book.title'))).toEqual(bookTitles);
+			expect(books.map(f.y('book => book.title'))).toEqual(bookTitles);
 			expect(shows.filter(f.y('(movie) => movie.watched'))).toEqual(watchedShows);
 			expect(shows.filter(f.y('(movie) => !movie.watched'))).toEqual(unWatchedShows);	
-			expect(people.map(f.y('(person) => person.fullName()'))).toEqual(fullNames);
+			expect(people.map(f.y('person  => person.fullName()'))).toEqual(fullNames);
 			expect(movies.filter(f.y('(movie) => movie.isGood()'))).toEqual(goodMovies);
 			expect(movies.filter(f.y('(movie) => !movie.isGood()'))).toEqual(badMovies);
 			expect(movies.sort(f.y('(m1, m2) => m1.rating - m2.rating'))).toEqual(moviesSortedByrating);
+		});
+
+		it("should throw error for wrong lambda syntax", function() {
+			expect(function() { f.y('(book => book.title')})
+				.toThrow(new Error('Error in lambda syntax : (book => book.title'));
+			expect(function() { f.y('book) => book.title')})
+				.toThrow(new Error('Error in lambda syntax : book) => book.title'));
+			expect(function() { f.y('m1, m2 => m1.rating - m2.rating')})
+				.toThrow(new Error('Error in lambda syntax : m1, m2 => m1.rating - m2.rating'));
 		});
 	});
 });

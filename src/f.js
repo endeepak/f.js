@@ -7,19 +7,18 @@
         root.f = factory();
     }
 })(this, function () {
-	var lambdaRegex = /\((.*)\)[\s]*=>[\s]*(.+)/;
+	var lambdaRegex = /^(\((.*)\)|([^\(\),.]*))?[\s]*=>[\s]*(.+)/;
+	var expanderRegex = /^(\!?)([^\(\).]+)(\(\))?$/;
 	function f(x) { return function() { return x; } };
-	f.property = function(propertyName) {
-		if(propertyName[0] === '!')
-			return function(obj) { return !obj[propertyName.substring(1)]; };
+	f.x = function(expression) {
+		var match = expanderRegex.exec(expression);
+		var isNegated = match[1];
+		var propertyName = match[2];
+		var isMethod = match[3];
+		if(isNegated)
+			return isMethod ? function(obj) { return !obj[propertyName](); } : function(obj) { return !obj[propertyName]; };
 		else
-			return function(obj) { return obj[propertyName]; };
-	}
-	f.method = function(methodName) {
-		if(methodName[0] === '!')
-			return function(obj) { return !obj[methodName.substring(1)](); };
-		else
-			return function(obj) { return obj[methodName](); };
+			return isMethod ? function(obj) { return obj[propertyName](); } : function(obj) { return obj[propertyName]; };
 	}
 	f.n = function() {
 		var args = arguments;
@@ -28,9 +27,10 @@
 	}
 	f.y = function(expression){
 		var match = lambdaRegex.exec(expression);
-		var argsString = match[1];
-		var body = match[2];
-		var args = argsString.split(',').map(f.method('trim'));
+		if (!match) throw new Error('Error in lambda syntax : ' + expression);
+		var argsString = match[2] || match[3];
+		var body = match[4];
+		var args = argsString.split(',').map(f.x('trim()'));
 		return f.n.apply(f, args.concat(body));
 	}
 	return f;
