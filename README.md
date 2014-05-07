@@ -11,19 +11,17 @@ Write less code for functions returning single line expression
 			//movies.sort(function(m1, m2) { return m1.rating - m2.rating'; }
 			movies.sort(f.y('(m1, m2) => m1.rating - m2.rating'))
 
-### Properties
+### Properties and Methods
 
 			//books.map(function(book) { return book.title; })
 			books.map(f.x('title'))
 			//movies.filter(function(movie) { return !movie.watched; })
 			movies.filter(f.x('!watched'))
 
-### Methods
-
 			//people.map(function(person) { return person.fullName(); })
-			people.map(f.x('fullName'))
+			people.map(f.x('fullName()'))
 			//movies.filter(function(movie) { return !movie.isGood(); })
-			movies.filter(f.x('!isGood'))
+			movies.filter(f.x('!isGood()'))
 
 ### Identity and noop
 
