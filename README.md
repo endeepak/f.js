@@ -7,7 +7,7 @@ Write less code for functions returning single line expression
 ### [Lambda / Arrow functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/arrow_functions)
 
 			//people.map(function(person) { return person.fullName(); })
-			people.map(f.y('(person) => person.fullName()'))
+			people.map(f.y('person => person.fullName()'))
 			//movies.sort(function(m1, m2) { return m1.rating - m2.rating'; }
 			movies.sort(f.y('(m1, m2) => m1.rating - m2.rating'))
 
